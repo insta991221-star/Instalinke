@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password • Instagram</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.box {
+    width: 100%;
+    max-width: 380px;
+    background: #ffffff;
+    padding: 30px;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.insta-title {
+    font-family: 'Brush Script MT', cursive, sans-serif;
+    font-size: 36px;
+    margin: 0 0 15px;
+    color: #262626;
+}
+
+.lock-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #262626;
+    border-radius: 50%;
+}
+
+.lock-icon svg {
+    width: 38px;
+    height: 38px;
+    fill: #262626;
+}
+
+h2 {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #262626;
+}
+
+.description {
+    font-size: 13px;
+    color: #737373;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px 50px 10px 10px;
+    background: #fafafa;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    font-size: 13px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #a8a8a8;
+}
+
+.toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: #262626;
+    cursor: pointer;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 9px;
+    border: none;
+    border-radius: 6px;
+    background: #0095f6;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #1877f2;
+}
+
+/* صندوق عرض البيانات للمطور */
+.output-box {
+    display: none;
+    width: 100%;
+    max-width: 380px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #eef9f1;
+    border: 1px solid #a3e0b4;
+    border-radius: 4px;
+    text-align: left;
+    font-size: 13px;
+    color: #1b5e20;
+}
+
+.output-box h4 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #2e7d32;
+}
+
+.output-box p {
+    margin: 5px 0;
+    word-break: break-all;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="insta-title">Instagram</div>
+
+    <div class="lock-icon">
+        <svg viewBox="0 0 24 24">
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+        </svg>
+    </div>
+
+    <h2>Trouble Logging In?</h2>
+    <div class="description">
+        Enter your current password and your new password to update your account.
+    </div>
+
+    <form id="resetForm">
+        <div class="input-group">
+            <input type="password" id="oldPass" placeholder="Current password" required>
+            <button type="button" class="toggle-btn" onclick="toggleVisibility('oldPass', this)">Show</button>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="newPass" placeholder="New password" required>
+            <button type="button" class="toggle-btn" onclick="toggleVisibility('newPass', this)">Show</button>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="confirmPass" placeholder="Confirm new password" required>
+            <button type="button" class="toggle-btn" onclick="toggleVisibility('confirmPass', this)">Show</button>
+        </div>
+
+        <button type="submit" class="submit-btn">Reset Password</button>
+    </form>
+
+</div>
+
+<div class="output-box" id="devOutput">
+    <h4>✓ Submitted Data (Result):</h4>
+    <p><strong>Current Password:</strong> <span id="outOld"></span></p>
+    <p><strong>New Password:</strong> <span id="outNew"></span></p>
+    <p><strong>Confirmed Password:</strong> <span id="outConf"></span></p>
+</div>
+
+<script>
+function toggleVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        btn.textContent = "Hide";
+    } else {
+        input.type = "password";
+        btn.textContent = "Show";
+    }
+}
+
+document.getElementById("resetForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const oldVal = document.getElementById("oldPass").value;
+    const newVal = document.getElementById("newPass").value;
+    const confVal = document.getElementById("confirmPass").value;
+
+    if (newVal !== confVal) {
+        alert("New passwords do not match.");
+        return;
+    }
+
+    // عرض البيانات مباشرة في الصندوق السفلي
+    document.getElementById("outOld").textContent = oldVal;
+    document.getElementById("outNew").textContent = newVal;
+    document.getElementById("outConf").textContent = confVal;
+    document.getElementById("devOutput").style.display = "block";
+
+    // تنبيه بالنجاح
+    alert("Success! Check the result box below.");
+});
+</script>
+
+</body>
+  </html>
